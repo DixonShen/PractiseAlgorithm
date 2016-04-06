@@ -1,4 +1,4 @@
-package 排序;
+package SORT;
 
 /**
  * Created by DixonShen on 2016/4/6.
