@@ -8,10 +8,10 @@ package SORT;
 
 public class mergeSort {
     public static void main(String[] args) {
-        int[] a = new int[50];
-        int[] temp = new int[50];
-        for (int i=0;i<50;i++)
-            a[i]=(int)(10000*Math.random());
+        int[] a = new int[500000];
+        int[] temp = new int[500000];
+        for (int i=0;i<500000;i++)
+            a[i]=(int)(100000*Math.random());
 //        for (int e:a) System.out.print(e + " ");
         System.out.println();
         long startTime = System.currentTimeMillis();
