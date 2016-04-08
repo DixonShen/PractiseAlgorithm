@@ -8,17 +8,17 @@ package SORT;
 
 public class mergeSort {
     public static void main(String[] args) {
-        int[] a = new int[500000];
-        int[] temp = new int[500000];
-        for (int i=0;i<500000;i++)
-            a[i]=(int)(100000*Math.random());
+        int[] a = new int[100000];
+        int[] temp = new int[100000];
+        for (int i=0;i<100000;i++)
+            a[i] = (int)(100000000*Math.random());
 //        for (int e:a) System.out.print(e + " ");
         System.out.println();
         long startTime = System.currentTimeMillis();
         MergeSort(a,temp);
         long endTime = System.currentTimeMillis();
         System.out.println("程序运行时间：" + (endTime-startTime) + "毫秒");
-
+//        for (int e:a) System.out.print(e + " ");
     }
 
     //将有序列[start...mid]和[mid+1...end]合并
