@@ -12,7 +12,6 @@ public class InsertSort {
         int[] a = new int[100000];
         for (int i=0;i<100000;i++)
             a[i] = (int)(100000000*Math.random());
-        int[] b = Arrays.copyOf(a,a.length);
 //        for (int e:a) System.out.print(e + " ");
         System.out.println();
         long startTime1 = System.currentTimeMillis();
