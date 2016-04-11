@@ -7,9 +7,9 @@ public class ShellSort {
 
     public static void main(String[] args) {
         ShellSort ob = new ShellSort();
-        int[] a = new int[1000000];
-        for (int i=0;i<1000000;i++)
-            a[i] = (int)(100000000*Math.random());
+        int[] a = new int[10000000];
+        for (int i=0;i<10000000;i++)
+            a[i] = (int)(1000000000*Math.random());
 //        for (int e:a) System.out.print(e + " ");
         System.out.println();
         long startTime1 = System.currentTimeMillis();
