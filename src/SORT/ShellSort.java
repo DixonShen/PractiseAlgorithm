@@ -13,7 +13,7 @@ public class ShellSort {
 //        for (int e:a) System.out.print(e + " ");
         System.out.println();
         long startTime1 = System.currentTimeMillis();
-        ob.shellSort2(a);
+        ob.shellSort1(a);
         long endTime1 = System.currentTimeMillis();
         System.out.println("程序运行时间：" + (endTime1 - startTime1) + "毫秒");
 //        for (int e:a) System.out.print(e + " ");
