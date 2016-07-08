@@ -11,6 +11,10 @@ public class Node {
     int count;          // the number of words sharing this character
     LinkedList<Node> childList;  //the child list
 
+    /**
+     * 初始化节点，conten为c
+     * @param c
+     */
     public Node(char c){
         childList = new LinkedList<Node>();
         isEnd = false;
@@ -18,6 +22,11 @@ public class Node {
         count = 0;
     }
 
+    /**
+     * 找到字符c的节点并返回
+     * @param c
+     * @return
+     */
     public Node subNode(char c){
         if (childList != null){
             for (Node eachChild : childList){
