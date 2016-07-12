@@ -1,5 +1,7 @@
 package Trie;
 
+import java.util.HashMap;
+
 /**
  * Created by DixonShen on 2016/7/8.
  * Implement Trie
@@ -61,6 +63,10 @@ public class MyTrie {
             return false;
     }
 
+    /**
+     * 删除指定单词
+     * @param word
+     */
     public void deleteWord(String word){
         if (search(word) == false) return;
 
@@ -79,6 +85,24 @@ public class MyTrie {
 
         current.isEnd = false;
 
+    }
+
+    public HashMap<String,Integer> getAllWords(){
+        return preTraversal(this.root,"");
+    }
+
+    private HashMap<String, Integer> preTraversal(Node root, String prefixs){
+        HashMap<String,Integer> map = new HashMap<String,Integer>();
+
+        if (root != null){
+            if (root.isEnd == true){
+                map.put(prefixs, root.dumpli_num);
+            }
+
+            for (int i=0, length=root.childList.size(); i<length; i++){
+                if (root.childList[i] != null)
+            }
+        }
     }
 
     public static void main(String[] args) {
