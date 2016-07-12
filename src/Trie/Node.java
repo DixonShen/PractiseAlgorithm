@@ -9,6 +9,7 @@ public class Node {
     char content;       // the character in the node
     boolean isEnd;      //whether the end of the words
     int count;          // the number of words sharing this character
+    int dumpli_num;  // the number of  the word ending with this cahracter
     LinkedList<Node> childList;  //the child list
 
     /**
@@ -20,6 +21,7 @@ public class Node {
         isEnd = false;
         content = c;
         count = 0;
+        dumpli_num = 0;
     }
 
     /**
