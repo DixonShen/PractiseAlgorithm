@@ -5,7 +5,7 @@ import java.util.Arrays;
 /**
  * Created by DixonShen on 2016/7/28.
  */
-public class HIghestandLowest {
+public class HighestandLowest {
 
     public static String HighAndLow(String numbers){
         String[] num = numbers.split(" ");
