@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class PrimeDecomp {
 
     public static void main(String[] args) {
-        System.out.println(factors(17));
+        System.out.println(factorsBetter(777696));
     }
 
     /**
@@ -28,6 +28,19 @@ public class PrimeDecomp {
             }
         }
         return true;
+    }
+
+    //better practise
+    public static String factorsBetter(int n){
+        String result = "";
+        for (int fac = 2; fac <= n; fac++ ){
+            int count;
+            for (count = 0; n%fac==0; count++){
+                n /= fac;
+            }
+            if (count>0) result += "(" + fac + (count>1 ? "**" + count : "") + ")";
+        }
+        return result;
     }
 
     public static String factors(int n) {
