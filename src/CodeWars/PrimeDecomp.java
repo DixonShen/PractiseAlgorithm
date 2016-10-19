@@ -14,7 +14,7 @@ import java.util.Arrays;
 public class PrimeDecomp {
 
     public static void main(String[] args) {
-        System.out.println(factorsBetter(777696));
+        System.out.println(factorsBetter(24));
     }
 
     /**
@@ -33,6 +33,7 @@ public class PrimeDecomp {
     //better practise
     public static String factorsBetter(int n){
         String result = "";
+        //原理类似于筛法求素数
         for (int fac = 2; fac <= n; fac++ ){
             int count;
             for (count = 0; n%fac==0; count++){
