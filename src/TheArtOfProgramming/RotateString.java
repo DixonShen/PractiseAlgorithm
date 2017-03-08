@@ -1,7 +1,7 @@
 package TheArtOfProgramming;
 
 /**
- *
+ * 字符串旋转
  * Created by leeon on 2017/3/7.
  */
 public class RotateString {
