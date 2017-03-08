@@ -111,6 +111,17 @@ public class RotateString {
         return res;
     }
 
+    /**
+     * 问题描述：
+     *  单词翻转。输入一个英文句子，翻转句子中单词的顺序，但单词内字符的顺序不变，句子中单词以空格符隔开。为简单起见，标点符
+     *  号和普通字母一样处理。例如，输入“I am a student.”，则输出“student. a am I”。
+     *
+     * 思路：
+     *  先将每个单词反转，然后将整个句子反转；
+     *
+     * @param sentence
+     * @return
+     */
     public static String RotateWords(String sentence) {
         String[] words = sentence.split(" ");
         for (int i = 0; i<= (int)(words.length/2-1); i++) {
