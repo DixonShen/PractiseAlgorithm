@@ -1,5 +1,8 @@
 package TheArtOfProgramming;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by leeon on 2017/3/8.
  */
@@ -39,5 +42,6 @@ public class StringContain {
         String s1 = "ABCD";
         String s2 = "AA";
         System.out.println(hashCheck(s1.toCharArray(), s2.toCharArray()));
+        List<String> list = new ArrayList<>();
     }
 }
