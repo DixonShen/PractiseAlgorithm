@@ -1,10 +1,10 @@
-package Trie;
+package Tree.Trie;
 
 import java.util.HashMap;
 
 /**
  * Created by DixonShen on 2016/7/8.
- * Implement Trie
+ * Implement Tree.Trie
  */
 public class MyTrie {
 
