@@ -1,13 +1,12 @@
-package Tree.Trie.RBTree;
+package Tree.RBTree;
 
-import javax.swing.tree.TreeNode;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
 
 /**
- * Created by leeon on 2017/5/10.
+ * Created by DixonShen on 2017/5/10.
  */
 public class RBTree<T extends Comparable<T>> {
 
@@ -16,6 +15,7 @@ public class RBTree<T extends Comparable<T>> {
     private static final boolean BLACK = false;
 
     /**
+     * 内部类，结点类
      * RB-Tree node
      * @param <T>
      */
@@ -175,7 +175,130 @@ public class RBTree<T extends Comparable<T>> {
      * @param node
      */
     public void insert(RBNode<T> node) {
+        RBNode<T> current = this.root;
+        RBNode<T> p = current;
+        while (current != null) {
+            if (node.key.compareTo(current.key) > 0) {
+                p = current;
+                current = p.right;
+            } else if (node.key.compareTo(current.key) < 0) {
+                p = current;
+                current = p.left;
+            } else {
+                System.out.println("结点已存在");
+                return;
+            }
+        }
+        if (this.root != null) {
+            if (node.key.compareTo(p.key) < 0) {
+                node.parent = p;
+                p.left = node;
+            } else {
+                node.parent = p;
+                p.right = node;
+            }
+        } else {
+            this.root = node;
+        }
+        insertFixUp(node);
+    }
 
+    /**
+     * 红黑树插入修正
+     * @param node
+     */
+    public void insertFixUp(RBNode node) {
+        RBNode<T> parent, gparent;
+
+        // 若父节点存在，并且父节点的颜色是红色
+        while ((parent = node.parent) != null && isRed(parent)) {
+            gparent = parent.parent;
+
+            // 若父结点是祖父结点的左儿子
+            if (parent == gparent.left) {
+                RBNode<T> uncle = gparent.right;
+
+                // 叔叔结点是红色
+                if ((uncle != null) && isRed(uncle)) {
+                    setBlack(parent);
+                    setBlack(uncle);
+                    setRed(gparent);
+                    node = gparent;
+                    continue;
+                }
+
+                // 叔叔结点是黑色，且当前结点是右子结点
+                if (node == parent.right) {
+                    leftRotate(parent); // 以父结点为支点左旋
+                    RBNode<T> tmp = parent; // 父结点与当前节点交换
+                    parent = node;
+                    node = tmp;
+                }
+
+                // 叔叔结点是黑色，且当前结点是左子结点
+                setBlack(parent);
+                setRed(gparent);
+                rightRotate(gparent);
+            } else {    // 若父结点是祖父结点的右孩子
+                RBNode<T> uncle = parent.left;
+
+                if (uncle != null && isRed(uncle)) {
+                    setBlack(parent);
+                    setBlack(uncle);
+                    setRed(gparent);
+                    node = gparent;
+                    continue;
+                }
+
+                if (node == parent.right) {
+                    rightRotate(parent);
+                    RBNode<T> tmp = parent;
+                    parent = node;
+                    node = tmp;
+                }
+
+                setBlack(parent);
+                setRed(gparent);
+                leftRotate(gparent);
+            }
+        }
+
+        setBlack(this.root);
+    }
+
+    public void remove(T key) {
+        RBNode<T> node;
+        if ((node = this.search(key)) != null)
+            remove(node);
+    }
+
+    public void remove(RBNode node) {
+
+    }
+
+    public RBNode search(T key) {
+        RBNode<T> node = this.root;
+        while (node != null) {
+            if (key.compareTo(node.key) == 0)
+                return node;
+            else if (key.compareTo(node.key) > 0)
+                node = node.right;
+            else if (key.compareTo(node.key) < 0)
+                node = node.left;
+        }
+        return null;
+    }
+
+    public boolean isRed(RBNode node) {
+        return node.red == RED;
+    }
+
+    public void setBlack(RBNode node) {
+        node.red = BLACK;
+    }
+
+    public void setRed(RBNode node) {
+        node.red = RED;
     }
 
     public static void main(String[] args) {
