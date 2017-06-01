@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Queue;
+import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Created by DixonShen on 2017/5/10.
@@ -273,7 +274,173 @@ public class RBTree<T extends Comparable<T>> {
     }
 
     public void remove(RBNode node) {
+        RBNode<T> child, parent;
+        boolean color;  // 保存三种情况下被删除结点的颜色
 
+        // 被删除节点的左右孩子都不为空的情况
+        if ((node.left != null) && (node.right != null)) {
+            // 被删结点的后继结点，用来取代被删结点的位置
+            RBNode<T> replace = node;
+
+            // 获取后继结点
+            replace = replace.right;
+            while (replace.left != null)
+                replace = replace.left;
+
+            // "node节点"不是根节点(只有根节点不存在父节点)
+            if (node.parent != null){
+                if (node == node.parent.left) {
+                    node.parent.left = replace;
+                } else {
+                    node.parent.right = replace;
+                }
+            } else {
+                // node结点是根节点，更新根结点
+                this.root = node;
+            }
+
+            // child是取代结点的右孩子
+            // 取代结点肯定不存在左孩子，因为它是一个后继结点
+            child = replace.right;
+            parent = replace.parent;
+            // 保存取代结点的颜色
+            color = replace.red;
+
+            // 被删除结点是它的后继结点的父结点
+            if (parent == node) {
+                parent = replace;
+            } else {
+                // child不为空
+                if (child != null)
+                    child.parent = parent;
+                parent.left = child;
+                replace.right = node.right;
+                node.right.parent = replace;
+            }
+
+            replace.parent = node.parent;
+            replace.left = node.left;
+            replace.red = node.red;
+            node.left.parent = replace;
+
+            if (color == BLACK)
+                removeFixUp(child, parent);
+
+            node = null;
+            return;
+        }
+
+        if (node.left != null) {
+            child = node.left;
+        } else {
+            child = node.right;
+        }
+
+        parent = node.parent;
+        color = node.red;
+
+        if (child != null)
+            child.parent = parent;
+
+        if (parent != null) {
+            if (parent.left == node) {
+                parent.left = child;
+            } else {
+                parent.right = child;
+            }
+        } else {
+            this.root = child;
+        }
+
+        if (color == BLACK)
+            removeFixUp(child, parent);
+
+        node = null;
+    }
+
+    /**
+     * 红黑树删除修正
+     * @param node 被删除结点的子节点
+     * @param parent 被删除结点的父结点
+     */
+    public void removeFixUp(RBNode node, RBNode parent) {
+        RBNode<T> other;
+
+        while ((node == null || !isRed(node)) && (node != this.root)) {
+            if (parent.left == node) {
+                other = parent.right;
+
+                // case 1: 当前为黑，兄弟结点为红
+                if (isRed(other)){
+                    setBlack(other);
+                    setRed(parent);
+                    leftRotate(parent);
+                    other = parent.left;
+                }
+
+                // case 2: 当前为黑，兄弟结点为黑，且兄弟的两个儿子都为黑
+                if ((other.left == null || !isRed(other.left)) &&
+                        (other.right == null || !isRed(other.right))) {
+                    setRed(other);
+                    node = parent;
+                    parent = node.parent;
+                } else {
+                    // case 3: 当前为黑，兄弟为黑，且兄弟左儿子为红，右儿子为黑
+                    if (other.right == null || !isRed(other.right)) {
+                        setBlack(other.left);
+                        setRed(other.left);
+                        rightRotate(other);
+                        other = parent.right;
+                    }
+
+                    // case 4: 当前为黑，兄弟为黑，且兄弟右儿子为红，左儿子颜色任意
+                    setColor(other, parent);
+                    setBlack(parent);
+                    setBlack(other.right);
+                    leftRotate(parent);
+                    node = this.root;
+                    break;
+                }
+            } else {
+                other = parent.left;
+
+                // case1: 当前为黑，兄弟为红
+                if (isRed(other)) {
+                    setRed(parent);
+                    setBlack(other);
+                    rightRotate(parent);
+                    other = parent.left;
+                }
+
+                // case2: 当前为黑，兄弟为黑，且兄弟两个儿子都为黑
+                if ((other.left == null || !isRed(other.left)) &&
+                (other.right == null || !isRed(other.right))) {
+                    setRed(other);
+                    node = parent;
+                    parent = node.parent;
+                } else {
+                    //case3: 当前为黑，兄弟为黑，且兄弟左儿子为红，右儿子为黑
+                    if (other.left == null || !isRed(other.left)){
+                        setRed(other);
+                        setBlack(other.right);
+                        leftRotate(other);
+                        other = parent.left;
+                    }
+
+                    //case4: 当前为黑，兄弟为黑，且兄弟右儿子为红，左儿子为任意颜色
+                    setColor(other, parent);
+                    setBlack(parent);
+                    setBlack(other.left);
+                    rightRotate(parent);
+                    node = this.root;
+                    break;
+                }
+            }
+        }
+
+        if (node != null) {
+            setBlack(node);
+        }
     }
 
     public RBNode search(T key) {
@@ -289,6 +456,7 @@ public class RBTree<T extends Comparable<T>> {
         return null;
     }
 
+
     public boolean isRed(RBNode node) {
         return node.red == RED;
     }
@@ -301,19 +469,11 @@ public class RBTree<T extends Comparable<T>> {
         node.red = RED;
     }
 
+    public void setColor(RBNode node1, RBNode node2) {
+        node1.red = node2.red;
+    }
+
     public static void main(String[] args) {
-        RBTree<Integer> rbTree = new RBTree<>();
-        rbTree.BSTreeInsert(13);
-        rbTree.BSTreeInsert(8);
-        rbTree.BSTreeInsert(17);
-        rbTree.BSTreeInsert(1);
-        rbTree.BSTreeInsert(11);
-        rbTree.BSTreeInsert(15);
-        rbTree.BSTreeInsert(6);
-        rbTree.BSTreeInsert(25);
-        rbTree.BSTreeInsert(22);
-        rbTree.BSTreeInsert(27);
-        System.out.println(rbTree.root.getKey());
-        rbTree.printBST(rbTree);
+
     }
 }
