@@ -5,7 +5,11 @@ package leetcode;
  */
 public class MaximumSubarray {
 
-    // 时间复杂度 O(N)
+    /**
+     * 时间复杂度 O(N)
+     * @param nums
+     * @return
+     */
     public static int maxSubSum(int[] nums) {
         int maxSum = nums[0];
         int thisSum = nums[0];
