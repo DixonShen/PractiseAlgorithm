@@ -41,12 +41,15 @@ public class mergeSort {
             a[j] = temp[i];
     }
 
-    public static void mergesort(int a[],int temp[],int start,int end){
-        //递归将数组分解
+    public static void mergeSort(int a[],int temp[],int start,int end){
+        // 递归将数组分解
+        // 可改进
+        // 改进1：子序列数量较少时，可直接使用选择排序
+        // 改进2：当左侧最大值<=右侧最小值时，序列已经有序，无需归并
         if (start<end){
             int mid = (start+end)/2;
-            mergesort(a,temp,start,mid);  //左边有序
-            mergesort(a,temp,mid+1,end);  //右边有序
+            mergeSort(a,temp,start,mid);  //左边有序
+            mergeSort(a,temp,mid+1,end);  //右边有序
             merge(a,temp,start,mid,end);  //归并两边
         }
     }
@@ -54,7 +57,7 @@ public class mergeSort {
     public static boolean MergeSort(int a[],int temp[]){
         if (temp==null)
             return false;
-        mergesort(a,temp,0,a.length-1);
+        mergeSort(a,temp,0,a.length-1);
         return true;
     }
 }

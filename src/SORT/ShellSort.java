@@ -7,15 +7,23 @@ public class ShellSort {
 
     public static void main(String[] args) {
         ShellSort ob = new ShellSort();
-        int[] a = new int[10000000];
-        for (int i=0;i<10000000;i++)
-            a[i] = (int)(1000000000*Math.random());
+        int[] a = new int[1000000];
+        int[] b = new int[1000000];
+        for (int i=0;i<100000;i++) {
+            a[i] = (int) (1000000000 * Math.random());
+            b[i] = (int) (1000000000 * Math.random());
+        }
 //        for (int e:a) System.out.print(e + " ");
         System.out.println();
         long startTime1 = System.currentTimeMillis();
         ob.shellSort1(a);
         long endTime1 = System.currentTimeMillis();
         System.out.println("程序运行时间：" + (endTime1 - startTime1) + "毫秒");
+
+        long startTime2 = System.currentTimeMillis();
+        ob.shellSort2(b);
+        long endTime2 = System.currentTimeMillis();
+        System.out.println("程序运行时间：" + (endTime2 - startTime2) + "毫秒");
 //        for (int e:a) System.out.print(e + " ");
     }
 
@@ -38,7 +46,8 @@ public class ShellSort {
         }
     }
 
-    //从数组gap位置开始
+    // 从数组gap位置开始
+    // 比第一种快
     public void shellSort2(int a[]){
         int i,gap,temp;
         int k;
