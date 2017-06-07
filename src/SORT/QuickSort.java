@@ -89,8 +89,8 @@ public class QuickSort {
     public void quickSort1(int a[],int l,int r) {
         if (l < r) {
             int x = a[r];
-            int i = l - 1;
-            int j,temp;
+            int i = l - 1;  // i指向小于pivot的最右边的数
+            int j;
             for (j = l; j < r; j++) {
                 if (a[j] < x) {
                     i++;
