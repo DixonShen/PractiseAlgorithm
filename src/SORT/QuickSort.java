@@ -80,9 +80,47 @@ public class QuickSort {
 //                : x[b] > x[c] ? b : x[a] > x[c] ? c : a;
     }
 
+    /**
+     * 将数组x中，从a开始连续n个数移动到数组末尾
+     * @param x
+     * @param a
+     * @param b
+     * @param n
+     */
     public void vecswap(int x[], int a, int b, int n){
         for (int i = 0;i<n;i++,a++,b++)
             swap(x,a,b);
+    }
+
+    public int choosePivot(int[] a, int l, int r) {
+        int len = r-l+1;
+        int m = l + (len >> 1); // 取中间位置
+        // 选取pivot位置
+        if (len >7){
+            int p = l;
+            int q = r;
+            if(len>40){
+                int s = len/8;
+                p = med3(a,p,p+s,p+2*s);
+                m = med3(a,m-s,m,m+s);
+                q = med3(a,q-2*s,q-s,q);
+            }
+            m = med3(a,p,q,m);
+        }
+        return m;
+    }
+
+    public void insertSort(int[] a, int l, int r) {
+        for (int i=l+1;i<=r;i++){
+            if (a[i]<a[i-1]){
+                int temp = a[i];
+                int j = i-1;
+                for (;j>=l&&a[j]>temp;j--)
+                    a[j+1] = a[j];
+                a[j+1] = temp;
+            }
+        }
+        return ;
     }
 
     //快速排序基本实现
@@ -157,16 +195,7 @@ public class QuickSort {
             //子序列长度小于某个阀值时，执行插入排序
             //还可以不进行排序，而在递归结束是对整个数组进行插入排序  本质上相同
             if((r-l+1)<7){
-                for (int i = l+1; i<=r;i++ ){
-                    if(a[i]<a[i-1]){
-                        int temp = a[i];
-                        int j;
-                        for (j = i-1; j>=l&&a[j]>temp;j--){
-                            a[j+1] = a[j];
-                        }
-                        a[j+1] = temp;
-                    }
-                }
+                insertSort(a, l, r);
                 return;
             }
             int i = l, j = r+1;
@@ -210,19 +239,7 @@ public class QuickSort {
                 return;
             }
 
-            int len = r-l+1;
-            int m = l + (len >> 1);
-            if (len>7){
-                int p = l;
-                int q = r;
-                if (len > 40){
-                    int s = len/8;
-                    p = med3(a,l,l+s,l+2*s);
-                    m = med3(a,m-s,m,m+s);
-                    q = med3(a,r-2*s,r-s,r);
-                }
-                m = med3(a,p,q,m);
-            }
+            int m = choosePivot(a, l, r);
 
             swap(a,l,m);
 
@@ -245,40 +262,30 @@ public class QuickSort {
         }
     }
 
+    /**
+     * 三分区快排
+     * 连续、相等的元素不需要参加排序
+     * version1
+     * @param a
+     * @param l
+     * @param r
+     */
     public void quickSort6(int a[], int l, int r){
         if (l<r){
 
             if((r-l+1)<7){
-                for (int i=l+1;i<=r;i++){
-                    if (a[i]<a[i-1]){
-                        int temp = a[i];
-                        int j = i-1;
-                        for (;j>=l&&a[j]>temp;j--)
-                            a[j+1] = a[j];
-                        a[j+1] = temp;
-                    }
-                }
+                insertSort(a, l, r);
                 return ;
             }
-
             int len = r-l+1;
-            int m = l + (len >> 1);
-            if (len >7){
-                int p = l;
-                int q = r;
-                if(len>40){
-                    int s = len/8;
-                    p = med3(a,p,p+s,p+2*s);
-                    m = med3(a,m-s,m,m+s);
-                    q = med3(a,q-2*s,q-s,q);
-                }
-                m = med3(a,p,q,m);
-            }
-
+            int m = choosePivot(a, l, r);
 
             int p = l,q = p;
             int s = r, t = s;
             int x = a[m];
+            // p, s为左右进行扫描的指针，直到p, s相遇，扫描结束
+            // q, s两个指针用来记录左右两端各有多少等于pivot的元素[0,...,q-1], [t+1,...,r-l]为等于pivot的元素
+            // 后面将这些等于pivot的值移动到中间
             while (true){
                 while (p<=s&&a[p]<=x){
                     if (a[p]==x)
@@ -295,6 +302,8 @@ public class QuickSort {
                 swap(a,p++,s--);
             }
 
+            // 此处分别考察左右两端等于pivot的元素数量与小于和大于pivot的元素数量，依此进行交换，
+            // 使等于pivot的元素移动到数组中间
             int i, n = l+len;
             i = Math.min(q-l,p-q);
             vecswap(a,l,p-i,i);
@@ -306,6 +315,33 @@ public class QuickSort {
             if ((i= t-s)>1)
                 quickSort6(a,r-i+1,r);
         }
+    }
+
+    /**
+     * 三分区快排
+     * @param a
+     * @param l
+     * @param r
+     */
+    public void quickSort7(int[] a, int l, int r) {
+        if((r-l+1)<7){
+            insertSort(a, l, r);
+            return ;
+        }
+
+        int lt = l, i = l + 1, gt = r;
+        int x = a[l];
+        while (i <= gt) {
+            if (a[i]<x){
+                swap(a, lt++, i++);
+            } else if (a[i]>x) {
+                swap(a, i, gt--);
+            } else if (a[i]==x) {
+                i++;
+            }
+        }
+        quickSort7(a, l, lt-1);
+        quickSort7(a, gt+1, r);
     }
 }
 
