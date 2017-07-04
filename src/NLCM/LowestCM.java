@@ -1,12 +1,10 @@
 package NLCM;
 
-import java.math.BigInteger;
-
 /**
  * Created by DixonShen on 2016/8/3.
  * Longest Common Multiple
  */
-public class LongestCM {
+public class LowestCM {
 
     /**
      * 1-N的最小公倍数
@@ -129,7 +127,7 @@ public class LongestCM {
 
     public static void main(String[] args) {
 //        testLCM2();
-        LongestCM test = new LongestCM();
+        LowestCM test = new LowestCM();
         int[] a = {1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20};
 //        for (int i=1;i<=a.length;i++)
 //            a[i-1] = i;
