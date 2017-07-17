@@ -20,8 +20,11 @@ public class Test08 {
         while (array[lo] >= array[hi]) {
             if (hi-lo == 1) return array[hi];
             mi = (lo+hi)/2;
+
+            // 当位于lo、mi、hi的三个数都相等时，无法判断中间数位于前面的子数组还是后面的子数组，需要进行顺序处理，从头到尾找到最小的值
             if (array[lo] == array[hi] && array[hi] == array[mi])
                 return minInOrder(array, lo, hi);
+
             if (array[mi] >= array[lo])
                 lo = mi;
             if (array[mi] <= array[hi])
