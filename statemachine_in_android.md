@@ -50,7 +50,7 @@ change of states. The client does not need to care for the state conversion and 
   
   The following is the role of every module.
   
-  State:  
+  <b>State</b>:  
   <pre>
   public class State implements IState
   {
@@ -65,7 +65,7 @@ change of states. The client does not need to care for the state conversion and 
   The base class of state. All the states in StateMachine is inherited from State.
   
   Three inner class of StateMachine  
-  ProcessedMessageInfo: The information of processed messages.
+  <b>ProcessedMessageInfo</b>: The information of processed messages.
   <pre>
   public static class ProcessedMessageInfo 
   {
@@ -74,7 +74,7 @@ change of states. The client does not need to care for the state conversion and 
   　　private State orgState;          
   }
   </pre>
-  ProcessedMessages: A list of log records including messages recently processed by the state machine.
+  <b>ProcessedMessages</b>: A list of log records including messages recently processed by the state machine.
   <pre>
   private static class ProcessedMessages {
   　　private static final int DEFAULT_SIZE = 20;
@@ -85,12 +85,12 @@ change of states. The client does not need to care for the state conversion and 
   　　private int mCount = 0;
   }
   </pre>
-  The two classes above have updated to LogRec and LogRecords but the roles are the same.
+  The two classes above have updated to <b>LogRec</b> and <b>LogRecords</b> but the roles are the same.
   
-  SmHandler:  
+  <b>SmHandler</b>:  
   
   There are three inner classes.  
-  StateInfo: Current State, its parentState and whether the state is active. The StateInfo is used to construct
+  <b>StateInfo</b>: Current State, its parentState and whether the state is active. The StateInfo is used to construct
   the hierarchical tree model.
   <pre>
   private class StateInfo 
@@ -106,7 +106,7 @@ change of states. The client does not need to care for the state conversion and 
   }
   </pre>
   
-  HaltingState and QuittingState  
+  <b>HaltingState</b> and <b>QuittingState</b>  
   Both are subclass of State and are used to do some things when the state halt and quit.
   
   
