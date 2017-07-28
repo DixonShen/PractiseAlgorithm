@@ -7,6 +7,10 @@ import java.util.Collection;
  */
 public class ArrayUtil {
 
+    /**
+     * print array
+     * @param arr
+     */
     public static void printArray(int[] arr) {
         if (arr != null && arr.length > 0) {
             for (int i : arr) {
