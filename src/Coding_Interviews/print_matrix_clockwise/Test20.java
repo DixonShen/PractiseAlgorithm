@@ -1,7 +1,5 @@
 package Coding_Interviews.print_matrix_clockwise;
 
-import utils.ArrayUtil;
-
 import java.util.ArrayList;
 
 /**
@@ -38,7 +36,7 @@ public class Test20 {
                 res.add(matrix[endY][i]);
         }
         if (start < endX && start < endY-1){
-            for (int i=endY; i>=start+1; i--)
+            for (int i=endY-1; i>=start+1; i--)
                 res.add(matrix[i][start]);
         }
     }
