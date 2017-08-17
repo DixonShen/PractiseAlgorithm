@@ -3,6 +3,7 @@ package Coding_Interviews.stack_with_min_function;
 import java.util.Stack;
 
 /**
+ * 定义栈的数据结构，请在该类型中实现一个能够得到栈的最小素的min 函数。在该栈中，调用min、push 及pop的时间复杂度都是0(1)
  * Created by dixonshen on 2017/8/17.
  */
 public class Test21 {
